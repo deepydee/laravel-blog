@@ -11,7 +11,7 @@ mix.combine([
     'resources/assets/admin/plugins/jquery/jquery.min.js',
     'resources/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'resources/assets/admin/js/adminlte.min.js',
-    'resources/assets/admin/js/demo.js',
+    // 'resources/assets/admin/js/demo.js',
 ], 'public/assets/admin/js/admin.min.js');
 
 mix.copyDirectory('resources/assets/admin/plugins/fontawesome-free/webfonts', 'public/assets/admin/webfonts');
