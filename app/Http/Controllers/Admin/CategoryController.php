@@ -55,7 +55,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        dd(__METHOD__);
+        $category = Category::find($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -67,7 +68,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+        ]);
+        $category = Category::find($id);
+        // $category->slug = null;
+        $categoryOldTitle = $category->title;
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with(
+            'success', "Категория $categoryOldTitle обновлена ({$category->title})"
+        );
     }
 
     /**
@@ -78,6 +88,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        dd(__METHOD__);
+        // Category::destroy($id);
+        $category = Category::find($id);
+        $categoryOldTitle = $category->title;
+        $category->delete();
+        return redirect()->route('categories.index')->with(
+            'success', "Категория $categoryOldTitle удалена"
+        );
     }
 }
