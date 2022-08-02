@@ -47,7 +47,7 @@
 
                                     <div class="form-group">
                                       <label for="category_id">Категория</label>
-                                      <select class="custom-select @error('category') is-invalid @enderror" id="category_id" name="category_id">
+                                      <select class="custom-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
                                       @foreach ($categories as $id => $title)
                                           <option value="{{$id}}">{{$title}}</option>
                                       @endforeach
