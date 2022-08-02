@@ -6,7 +6,7 @@
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Редактирование категории</h1>
+                  <h1>Редактирование тэга</h1>
                 </div>
                 <div class="col-sm-6">
                   <ol class="breadcrumb float-sm-right">
@@ -25,15 +25,15 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Категория {{$category->title}}</h3>
+                                <h3 class="card-title">Тэг {{$tag->title}}</h3>
                             </div>
-                            <form role="form" action="{{route('categories.update', ['category' => $category->id])}}" method="POST">
+                            <form role="form" action="{{route('tags.update', ['tag' => $tag->id])}}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="title">Название категории</label>
-                                        <input type="text" class="form-control @error('title') is-invalid   @enderror" name="title" id="title" value="{{$category->title}}">
+                                        <label for="title">Название тэга</label>
+                                        <input type="text" class="form-control @error('title') is-invalid   @enderror" name="title" id="title" value="{{$tag->title}}">
                                     </div>
                                     <div class="card-footer">
                                          <button type="submit" class="btn btn-primary">Обновить</button>
