@@ -23,6 +23,7 @@ mix.combine([
     'resources/assets/admin/plugins/jquery/jquery.min.js',
     'resources/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js',
     'resources/assets/admin/plugins/select2/js/select2.full.min.js',
+    'resources/assets/admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js',
     'resources/assets/admin/js/adminlte.min.js',
     'resources/assets/admin/js/custom.js',
 ], 'public/assets/admin/js/admin.min.js');

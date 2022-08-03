@@ -90,6 +90,11 @@ class CategoryController extends Controller
     {
         // Category::destroy($id);
         $category = Category::find($id);
+        if ($category->posts->count()) {
+            return redirect()->route('categories.index')->with(
+                'error', "У категории есть статьи"
+            );
+        }
         $categoryOldTitle = $category->title;
         $category->delete();
         return redirect()->route('categories.index')->with(
