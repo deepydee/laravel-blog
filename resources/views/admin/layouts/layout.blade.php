@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Admin.min.css -->
   <link rel="stylesheet" href="{{asset('assets/admin/css/admin.min.css')}}">
+  <style>
+    .ck-editor__editable_inline {
+      min-height: 300px;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -317,6 +322,114 @@
 
 <!-- admin.min.js -->
 <script src="{{asset('assets/admin/js/admin.min.js')}}"></script>
+<script src="{{asset('assets/admin/ckeditor5/build/ckeditor.js')}}"></script>
+{{-- <script src="{{asset('assets/admin/ckfinder/ckfinder.js')}}"></script> --}}
+
+<script>
+      class MyUploadAdapter {
+        constructor( loader ) {
+            this.loader = loader;
+        }
+     
+        upload() {
+            return this.loader.file
+                .then( file => new Promise( ( resolve, reject ) => {
+                    this._initRequest();
+                    this._initListeners( resolve, reject, file );
+                    this._sendRequest( file );
+                } ) );
+        }
+     
+        abort() {
+            if ( this.xhr ) {
+                this.xhr.abort();
+            }
+        }
+     
+        _initRequest() {
+            const xhr = this.xhr = new XMLHttpRequest();
+     
+            xhr.open( 'POST', "{{route('image-upload', ['_token' => csrf_token() ])}}", true );
+            xhr.responseType = 'json';
+        }
+     
+        _initListeners( resolve, reject, file ) {
+            const xhr = this.xhr;
+            const loader = this.loader;
+            const genericErrorText = `Couldn't upload file: ${ file.name }.`;
+     
+            xhr.addEventListener( 'error', () => reject( genericErrorText ) );
+            xhr.addEventListener( 'abort', () => reject() );
+            xhr.addEventListener( 'load', () => {
+                const response = xhr.response;
+     
+                if ( !response || response.error ) {
+                    return reject( response && response.error ? response.error.message : genericErrorText );
+                }
+     
+                resolve( response );
+            } );
+     
+            if ( xhr.upload ) {
+                xhr.upload.addEventListener( 'progress', evt => {
+                    if ( evt.lengthComputable ) {
+                        loader.uploadTotal = evt.total;
+                        loader.uploaded = evt.loaded;
+                    }
+                } );
+            }
+        }
+     
+        _sendRequest( file ) {
+            const data = new FormData();
+     
+            data.append( 'upload', file );
+     
+            this.xhr.send( data );
+        }
+    }
+     
+    function MyCustomUploadAdapterPlugin( editor ) {
+        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+            return new MyUploadAdapter( loader );
+        };
+    }
+
+  ClassicEditor
+      .create( document.querySelector( '#content' ) ,{
+        extraPlugins: [ MyCustomUploadAdapterPlugin ],
+      } )
+      .catch( error => {
+          console.error( error );
+      } );
+</script>
+
+<script>
+  ClassicEditor
+      .create( document.querySelector( '#description' ), {
+        toolbar: [ 
+          'heading',
+          '|',
+          'fontFamily',
+          'fontSize',
+          'bold',
+          'italic',
+          'link',
+          '|',
+          'outdent',
+          'indent',
+          'alignment',
+          '|',
+          'blockQuote',
+          'undo',
+          'redo',
+        ]
+      } )
+      .catch( error => {
+          console.error( error );
+      } );
+</script>
+
 <script>
   $('.nav-sidebar a').each(function() {
     let location = window.location.protocol + '//' + window.location.host +

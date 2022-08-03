@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CKEditorController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TagController;
@@ -27,7 +28,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('/categories', CategoryController::class);
     Route::resource('/tags', TagController::class);
     Route::resource('/posts', PostController::class);
+   
 });
+
+Route::post('/upload', [CKEditorController::class, 'upload'])->name('image-upload');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [UserController::class, 'create'])->name('register.create');
