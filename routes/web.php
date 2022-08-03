@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ControllersPostController::class, 'index'])->name('home');
-Route::get('/article', [PostController::class, 'show'])->name('posts.single');
+Route::get('/article', [ControllersPostController::class, 'show'])->name('posts.single');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [MainController::class, 'index'])->name('admin.index');
