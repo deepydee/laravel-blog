@@ -137,7 +137,9 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->tags()->sync([]);
-        Storage::delete($post->thumbnail);
+        if(!is_null($post->thumbnail)) {
+            Storage::delete($post->thumbnail);
+        }
         $post->delete();
         return redirect()->route('posts.index')->with(
             'success', 'Статья удалена',
