@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\CategoryController as ControllersCategoryController;
 use App\Http\Controllers\TagController as ControllersTagController;
 use App\Http\Controllers\PostController as ControllersPostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,7 @@ Route::get('/', [ControllersPostController::class, 'index'])->name('home');
 Route::get('/article/{slug}', [ControllersPostController::class, 'show'])->name('posts.single');
 Route::get('/category/{slug}', [ControllersCategoryController::class, 'show'])->name('categories.single');
 Route::get('/tag/{slug}', [ControllersTagController::class, 'show'])->name('tags.single');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', [MainController::class, 'index'])->name('admin.index');
